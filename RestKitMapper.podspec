@@ -36,6 +36,15 @@ Pod::Spec.new do |s|
   s.resource_bundles = {
     'RestKitMapper' => ['Assets/*']
   }
+  
+  s.prefix_header_contents = <<-EOS
+    #ifdef __OBJC__
+      #import <Foundation/Foundation.h>
+      #import <CoreData/CoreData.h>
+      #import <SystemConfiguration/SystemConfiguration.h>
+      #import <MobileCoreServices/MobileCoreServices.h>
+    #endif
+  EOS
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
