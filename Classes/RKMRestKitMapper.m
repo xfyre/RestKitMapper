@@ -11,13 +11,17 @@
 #import <objc/runtime.h>
 #import <RestKit/RestKit.h>
 
+NSString * const RKMRestKitMapperModelNameKey  = @"RestKitMapperModelName";
+NSString * const RKMRestKitMapperConfigFileKey = @"RestKitMapperConfigFile";
 NSString * const RKMRestKitMapperServerBaseKey = @"RestKitMapperServerBase";
 NSString * const RKMRestKitMapperContextUrlKey = @"RestKitMapperContextUrl";
 
 @interface RKMRestKitMapper()
 
+@property (nonatomic, strong) NSString *modelName;
 @property (nonatomic, strong) NSString *contextUrl;
 @property (nonatomic, strong) NSString *serverBase;
+@property (nonatomic, strong) NSString *configFile;
 
 @end
 
@@ -47,14 +51,22 @@ NSString * const RKMRestKitMapperContextUrlKey = @"RestKitMapperContextUrl";
 {
     self = [super init];
     if (self) {
+        _modelName  = [[NSUserDefaults standardUserDefaults] stringForKey:RKMRestKitMapperModelNameKey];
+        _configFile = [[NSUserDefaults standardUserDefaults] stringForKey:RKMRestKitMapperConfigFileKey];
         _serverBase = [[NSUserDefaults standardUserDefaults] stringForKey:RKMRestKitMapperServerBaseKey];
         _contextUrl = [[NSUserDefaults standardUserDefaults] stringForKey:RKMRestKitMapperContextUrlKey];
 
+        if (_modelName.length == 0)
+            [NSException raise:NSInternalInconsistencyException format:@"Mapper model name not set in user defaults (key=%@)", RKMRestKitMapperModelNameKey];
+
+        if (_configFile.length == 0)
+            [NSException raise:NSInternalInconsistencyException format:@"Mapper config file not set in user defaults (key=%@)", RKMRestKitMapperConfigFileKey];
+
         if (_serverBase.length == 0)
-            [NSException raise:NSInternalInconsistencyException format:@"Server base URL must be set in user defaults"];
+            [NSException raise:NSInternalInconsistencyException format:@"Server base URL not set in user defaults (key=%@)", RKMRestKitMapperServerBaseKey];
 
         if ([NSURL URLWithString:[_serverBase stringByAppendingPathComponent:_contextUrl]] == nil)
-            [NSException raise:NSInternalInconsistencyException format:@"Invalid server URL"];
+            [NSException raise:NSInternalInconsistencyException format:@"Invalid server URL (base=%@, context=%@)", _serverBase, _contextUrl];
 
         [self initDataLayerMappings];
         [self initRESTKit];
@@ -187,10 +199,10 @@ NSString * const RKMRestKitMapperContextUrlKey = @"RestKitMapperContextUrl";
     [objectManager.operationQueue addOperation: requestOperation];
 }
 
-- (void)configureErrorMappingForClass:(Class)class withAttributes:(NSDictionary *)attributes
+- (void)configureErrorMappingForClass:(Class)clazz withAttributes:(NSDictionary *)attributes
 {
     // Configure error mappings
-    RKObjectMapping *errorMapping = [RKObjectMapping mappingForClass:class];
+    RKObjectMapping *errorMapping = [RKObjectMapping mappingForClass:clazz];
     [attributes enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
         [errorMapping addPropertyMapping: [RKAttributeMapping attributeMappingFromKeyPath:key toKeyPath:obj]];
     }];
@@ -233,7 +245,10 @@ static NSDictionary *fetchRequestMappings = nil;
 - (void)initDataLayerMappings
 {
     if (dataLayerMappings == nil) {
-        NSString *mappingsFilePath = [[NSBundle mainBundle] pathForResource: @"iVViDataMappings" ofType: @"plist"];
+        NSString *mappingsFilePath = [[NSBundle mainBundle] pathForResource:self.configFile ofType: @"plist"];
+        if (![[NSFileManager defaultManager] fileExistsAtPath:mappingsFilePath])
+            [NSException raise:NSInternalInconsistencyException format:@"Mappings configuration file not found: %@", mappingsFilePath];
+
         dataLayerMappings = [NSDictionary dictionaryWithContentsOfFile: mappingsFilePath];
     }
 }
@@ -256,17 +271,17 @@ static NSDictionary *fetchRequestMappings = nil;
 
 - (void)initRESTKit
 {
-    RKLogConfigureByName("RestKit", RKLogLevelOff);
-    RKLogConfigureByName("RestKit/Network", RKLogLevelInfo);
-    RKLogConfigureByName("RestKit/ObjectMapping", RKLogLevelInfo);
+//    RKLogConfigureByName("RestKit", RKLogLevelOff);
+//    RKLogConfigureByName("RestKit/Network", RKLogLevelInfo);
+//    RKLogConfigureByName("RestKit/ObjectMapping", RKLogLevelInfo);
 
     NSURL *baseURL = [NSURL URLWithString:_serverBase];
     RKObjectManager *objectManager = [RKObjectManager managerWithBaseURL:baseURL];
     objectManager.requestSerializationMIMEType = RKMIMETypeJSON;
     [self setupHttpClient];
 
-    NSURL *modelURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"iVVi" ofType:@"momd"]];
-    NSString *storePath = [RKApplicationDataDirectory() stringByAppendingPathComponent:@"iVVi.sqlite"];
+    NSURL *modelURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:self.modelName ofType:@"momd"]];
+    NSString *storePath = [RKApplicationDataDirectory() stringByAppendingPathComponent:[self.modelName stringByAppendingPathExtension:@"sqlite"]];
     NSError * error;
 
     // NOTE: Due to an iOS 5 bug, the managed object model returned is immutable.

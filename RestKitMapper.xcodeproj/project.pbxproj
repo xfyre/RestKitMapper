@@ -56,6 +56,7 @@
 		5F8D21D719C93ED000A26F75 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		5F8D21D919C93ED000A26F75 /* RestKitMapperTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RestKitMapperTests.m; sourceTree = "<group>"; };
 		5F8D21E319C9424D00A26F75 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		5F8D21E619C9590100A26F75 /* RestKitMapper.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = RestKitMapper.plist; sourceTree = "<group>"; };
 		692FDF13AD2D46C8B45A431E /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		BF5167D3830C4EF9A7E1DD2E /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -88,6 +89,7 @@
 		5F8D21B119C93ED000A26F75 = {
 			isa = PBXGroup;
 			children = (
+				5F8D21E519C958B000A26F75 /* Config */,
 				5F8D21BF19C93ED000A26F75 /* Classes */,
 				5F8D21D319C93ED000A26F75 /* Tests */,
 				5F8D21BC19C93ED000A26F75 /* Frameworks */,
@@ -151,6 +153,14 @@
 				5F8D21D619C93ED000A26F75 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		5F8D21E519C958B000A26F75 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				5F8D21E619C9590100A26F75 /* RestKitMapper.plist */,
+			);
+			path = Config;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
