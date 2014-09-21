@@ -55,7 +55,7 @@ To get started with RestKitMapper you should fully understand RestKit concepts (
 
   * [RestKit API documentation](http://restkit.org/api/latest/)
   * [RestKit wiki](https://github.com/RestKit/RestKit/wiki)
-  * RestKitMapper configuration file syntax (TODO)
+  * [RestKitMapper configuration file syntax](https://github.com/xfyre/RestKitMapper/wiki/RestKitMapperConfig)
   * RestKitMapper API documentation (TODO)
 
 # Author
