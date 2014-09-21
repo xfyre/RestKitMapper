@@ -27,12 +27,10 @@ To get started with RestKitMapper you should fully understand RestKit concepts (
 
 - (void)initializeRestKitMapperDefaults
 {
-  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-  [defaults setObject: @"YourConfigFileName" forKey: RKMRestKitMapperConfigFileKey];
-  [defaults setObject: @"RKMRestKitMapperModelNameKey" forKey: RKMRestKitMapperModelNameKey];
-  [defaults setObject: @"https://your.server.url:port" forKey: RKMRestKitMapperServerBaseKey];
-  [defaults setObject: @"/path/to/api" forKey: RKMRestKitMapperContextUrlKey]; // optional
-  [defaults synchronize];
+  [RKMRestKitMapper configureWithFileName:@"RestKitMapperConfig"
+                    serverBaseUrl:@"https://my.server:8080"
+                    contextUrl:@"/api/v2"
+                    modelName:@"MyModelName"];
 }
 
 - (void)callMyRestApiMethod
