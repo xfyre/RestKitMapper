@@ -39,6 +39,24 @@ NSString * const RKMRestKitMapperContextUrlKey = @"RestKitMapperContextUrl";
 
 @implementation RKMRestKitMapper
 
++ (void)configureWithFileName:(NSString *)fileName serverBaseUrl:(NSString *)baseUrl contextUrl:(NSString *)contextUrl modelName:(NSString *)modelName
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if (fileName != nil)
+        [defaults setObject:fileName forKey:RKMRestKitMapperConfigFileKey];
+
+    if (baseUrl != nil)
+        [defaults setObject:baseUrl forKey:RKMRestKitMapperServerBaseKey];
+
+    if (contextUrl != nil)
+        [defaults setObject:contextUrl forKey:RKMRestKitMapperContextUrlKey];
+
+    if (modelName != nil)
+        [defaults setObject:modelName forKey:RKMRestKitMapperModelNameKey];
+
+    [defaults synchronize];
+}
+
 + (RKMRestKitMapper *)sharedInstance
 {
     static dispatch_once_t onceToken;
@@ -64,6 +82,9 @@ NSString * const RKMRestKitMapperContextUrlKey = @"RestKitMapperContextUrl";
 
         if (_serverBase.length == 0)
             [NSException raise:NSInternalInconsistencyException format:@"Server base URL not set in user defaults (key=%@)", RKMRestKitMapperServerBaseKey];
+
+        if (_contextUrl == nil)
+            _contextUrl = @"";
 
         if ([NSURL URLWithString:[_serverBase stringByAppendingPathComponent:_contextUrl]] == nil)
             [NSException raise:NSInternalInconsistencyException format:@"Invalid server URL (base=%@, context=%@)", _serverBase, _contextUrl];

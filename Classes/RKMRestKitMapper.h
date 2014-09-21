@@ -24,6 +24,11 @@ typedef void (^RKMRequestSuccess)(id result);
 typedef void (^RKMRequestFailure)(NSError *error);
 
 /**
+ Configure RestKitMapper
+ */
++ (void)configureWithFileName:(NSString *)fileName serverBaseUrl:(NSString *)baseUrl contextUrl:(NSString *)contextUrl modelName:(NSString *)modelName;
+
+/**
  Instantiate and configure RestKitMapper
  */
 + (instancetype)sharedInstance;
