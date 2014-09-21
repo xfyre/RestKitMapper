@@ -16,7 +16,7 @@ RestKitMapper allows you to configure RestKit mappings declaratively. Supported 
 
 # Getting started
 
-To get started with RestKitMapper you should fully understand RestKit concepts (and, in particular, RestKit mappings). Please read RestKit docs if you haven't done so yet. Installation is simple:
+To get started with RestKitMapper you should fully understand RestKit concepts (and, in particular, RestKit mappings). Please read [RestKit docs](https://github.com/RestKit/RestKit/wiki) if you haven't done so yet. Installation is simple:
 
  * Include RestKitMapper in your Podfile (if you're not yet familar with [CocoaPods](http://cocoapods.org/), that's a good reason to start) and run **pod install**
  * Copy and edit RestKitMapper configuration file (sample file available in RestKitMapper project directory as **Config/RestKitMapper.plist**. Place it anywhere in your project file hierarchy.
@@ -53,7 +53,8 @@ To get started with RestKitMapper you should fully understand RestKit concepts (
 
 # More information
 
-  * RestKit API documentation 
+  * [RestKit API documentation](http://restkit.org/api/latest/)
+  * [RestKit wiki](https://github.com/RestKit/RestKit/wiki)
   * RestKitMapper configuration file syntax (TODO)
   * RestKitMapper API documentation (TODO)
 
