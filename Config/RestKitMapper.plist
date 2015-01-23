@@ -78,14 +78,6 @@
 					<key>entity_name</key>
 					<string>Department</string>
 				</dict>
-				<dict>
-					<key>key_path</key>
-					<string>kind</string>
-					<key>expected_value</key>
-					<string>book</string>
-					<key>entity_name</key>
-					<string>Book</string>
-				</dict>
 			</array>
 		</dict>
 		<dict>

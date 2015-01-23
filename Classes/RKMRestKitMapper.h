@@ -63,6 +63,11 @@ typedef void (^RKMRequestFailure)(NSError *error);
 - (void)post:(NSString *)uri withObject:(id)obj success:(RKMRequestSuccess)success failure:(RKMRequestFailure)failure;
 
 /**
+ Put to relative URL. Object mapping must be configured.
+ */
+- (void)put:(NSString *)uri withObject:(id)obj success:(RKMRequestSuccess)success failure:(RKMRequestFailure)failure;
+
+/**
  Perform named fetch request from underlying Core Data storage.
  */
 - (void)fetch:(NSString *)requestName withParams:(NSDictionary *)params success:(RKMRequestSuccess)success failure:(RKMRequestFailure)failure;

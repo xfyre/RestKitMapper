@@ -220,6 +220,30 @@ NSString * const RKMRestKitMapperContextUrlKey = @"RestKitMapperContextUrl";
     [objectManager.operationQueue addOperation: requestOperation];
 }
 
+- (void)put:(NSString *)uri withObject:(id)obj success:(RKMRequestSuccess)success failure:(RKMRequestFailure)failure
+{
+    RKObjectManager * objectManager = [RKObjectManager sharedManager];
+
+    NSMutableURLRequest *request = [objectManager requestWithObject: obj
+                                                             method: RKRequestMethodPUT
+                                                               path: [_contextUrl stringByAppendingPathComponent:uri]
+                                                         parameters: nil];
+
+    RKManagedObjectRequestOperation *requestOperation =
+    [objectManager managedObjectRequestOperationWithRequest:request
+                                       managedObjectContext:objectManager.managedObjectStore.persistentStoreManagedObjectContext
+                                                    success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+                                                        if (success)
+                                                            success(mappingResult.array);
+                                                    }
+                                                    failure:^(RKObjectRequestOperation *operation, NSError *error) {
+                                                        if (failure)
+                                                            failure(error);
+                                                    }];
+
+    [objectManager.operationQueue addOperation: requestOperation];
+}
+
 - (void)configureErrorMappingForClass:(Class)clazz withAttributes:(NSDictionary *)attributes
 {
     // Configure error mappings
