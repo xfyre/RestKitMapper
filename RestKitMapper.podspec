@@ -9,7 +9,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "RestKitMapper"
-  s.version          = "0.1.1"
+  s.version          = "0.1.2
   s.summary          = "Declarative-style configurator for RestKit."
   s.description      = <<-DESC
                        RestKitMapper allows to perform declarative-style configuration of RestKit
@@ -29,7 +29,7 @@ Pod::Spec.new do |s|
   s.source           = { :git => "https://github.com/xfyre/RestKitMapper.git", :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
-  s.platform     = :ios, '7.0'
+  s.platform     = :ios, '8.0'
   s.requires_arc = true
 
   s.source_files = 'Classes'

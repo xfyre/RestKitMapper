@@ -100,14 +100,14 @@ NSString * const RKMRestKitMapperContextUrlKey = @"RestKitMapperContextUrl";
 {
     RKObjectManager *manager = [RKObjectManager sharedManager];
     manager.requestSerializationMIMEType = RKMIMETypeJSON;
-    [manager setHTTPClient:[AFHTTPClient clientWithBaseURL:url]];
+    [manager setHTTPClient:[AFRKHTTPClient clientWithBaseURL:url]];
     [self setupHttpClient];
 
     for (RKResponseDescriptor *responseDescriptor in [RKObjectManager sharedManager].responseDescriptors)
         [responseDescriptor setBaseURL:[RKObjectManager sharedManager].baseURL];
 }
 
-- (AFHTTPClient *)HTTPClient
+- (AFRKHTTPClient *)HTTPClient
 {
     return [RKObjectManager sharedManager].HTTPClient;
 }
@@ -280,8 +280,8 @@ static NSDictionary *fetchRequestMappings = nil;
 -(void)setupHttpClient
 {
     RKObjectManager *manager = [RKObjectManager sharedManager];
-    [manager.HTTPClient registerHTTPOperationClass:[AFJSONRequestOperation class]];
-    [manager.HTTPClient setParameterEncoding:AFJSONParameterEncoding];
+    [manager.HTTPClient registerHTTPOperationClass:[AFRKJSONRequestOperation class]];
+    [manager.HTTPClient setParameterEncoding:AFRKJSONParameterEncoding];
     [manager.HTTPClient setDefaultHeader:@"Accept" value:@"application/json"];
     [manager.HTTPClient setDefaultHeader:@"Content-Type" value:@"application/json"];
     [manager setAcceptHeaderWithMIMEType:RKMIMETypeJSON];
@@ -350,7 +350,7 @@ static NSDictionary *fetchRequestMappings = nil;
     [RKObjectManager setSharedManager:objectManager];
 
     // Enable Activity Indicator Spinner
-    [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
+    [AFRKNetworkActivityIndicatorManager sharedManager].enabled = YES;
 
     NSMutableDictionary *fetchRequestsDict = [NSMutableDictionary dictionary];
 
