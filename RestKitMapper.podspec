@@ -9,7 +9,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "RestKitMapper"
-  s.version          = "0.1.2
+  s.version          = "0.1.2"
   s.summary          = "Declarative-style configurator for RestKit."
   s.description      = <<-DESC
                        RestKitMapper allows to perform declarative-style configuration of RestKit
