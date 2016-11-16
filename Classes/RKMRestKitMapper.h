@@ -13,7 +13,7 @@ extern NSString * const RKMRestKitMapperConfigFileKey;
 extern NSString * const RKMRestKitMapperServerBaseKey;
 extern NSString * const RKMRestKitMapperContextUrlKey;
 
-@class AFHTTPClient;
+@class AFRKHTTPClient;
 
 /**
  Helper class providing declarative-style RestKit configuration using property files
@@ -77,6 +77,6 @@ typedef void (^RKMRequestFailure)(NSError *error);
  
  @return shared HTTPClient instance
  */
-- (AFHTTPClient*)HTTPClient;
+- (AFRKHTTPClient*)HTTPClient;
 
 @end
